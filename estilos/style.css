@@ -1,0 +1,143 @@
+*{
+    box-sizing: border-box;
+}
+
+body{
+    font-family: 'Roboto', sans-serif;
+    background-color: #F3F3F3;
+}
+
+
+header{
+    background-color: #FFFFFF;
+    width: 100vw;
+    height: 80px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.05);
+    position: fixed;
+    top: 0px;
+    left: 0px;
+}
+.people{
+    font-size: 42px;
+    margin-right: 22px;
+}
+img{
+    margin-left: 22px;
+}
+
+main{
+    margin-top: 80px;
+    margin-bottom: 80px;
+    height: 100%;
+}
+
+ul{
+   margin-top: 106px;
+}
+li{
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 4px;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+}
+.status{
+    background-color: #DCDCDC;
+}
+.message{
+    background-color: #FFFFFF;
+}
+
+.private_message{
+    background-color: #FFDEDE;
+}
+
+span{
+    color: #AAAAAA;
+}
+em{
+    font-weight: 700;
+}
+footer{
+    width: 100vw;
+    position: fixed;
+    bottom: 0px;
+    left: 0px;
+    height: 80px;
+    background-color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0px -4px 6px rgba(0, 0, 0, 0.05);
+}
+
+input{
+    margin-left: 18px;
+    height: 30px;
+    border: 0px;
+    width: 300px;
+    outline:0;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+    font-size: 18px
+}
+
+input::placeholder{
+    color: black;
+    font-style: italic;
+}
+
+.paperplane{
+    font-size: 26px;
+    margin-right: 18px;
+}
+
+aside{
+    height: 100vh;
+    background-color: #FFFFFF;
+    width: 72vw;
+    z-index: 1;
+    position: fixed;
+    right: 0px;
+    top: 0px;
+    display: none;
+}
+
+section{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+    font-size: 16px;
+    font-weight: 700;
+    text-align:center;
+}
+
+.members_online{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+.member{
+    display: flex;
+    align-items: center;
+    padding: 0px 10px;
+    position: relative;
+    font-weight: 400;
+    padding: 8px;
+}
+
+ion-icon{
+    font-size: 20px;
+    margin-right: 8px;
+    margin-left: 10px;
+}
+.check{
+    position: absolute;
+    right: 10px;
+    color:#28BB25;
+}
