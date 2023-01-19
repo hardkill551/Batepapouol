@@ -75,6 +75,7 @@ function manterConexão(){
 function entrou(){
     coletarMensagens()
     coletarMensagensACada3Segundos()
+    setTimeout(1000)
     let x = setInterval(manterConexão, 5000)
     let y = setInterval(coletarMensagensACada3Segundos, 3000)
 }
@@ -96,7 +97,10 @@ function entrarNaSala(resposta){
 }
 
 function conferirParticipantes(){
-    const member = prompt("Qual seu nome?")
+    let member = prompt("Qual seu nome?")
+    while (!member){
+        member = prompt("Qual seu nome?")
+    }
     person = {name: member}
     const promise = axios.get("https://mock-api.driven.com.br/api/v6/uol/participants")
     promise.then(entrarNaSala)
