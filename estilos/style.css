@@ -9,7 +9,7 @@ body{
 
 header{
     background-color: #FFFFFF;
-    width: 100vw;
+    width: 375px;
     height: 80px;
     display: flex;
     justify-content: space-between;
@@ -37,18 +37,16 @@ ul{
    margin-top: 106px;
 }
 li{
-    width: 100%;
+    width: 375px;
     padding: 8px;
     margin-bottom: 4px;
     font-weight: 400;
     font-size: 14px;
     line-height: 20px;
+    border-radius: 2px;
 }
 .status{
     background-color: #DCDCDC;
-}
-.message{
-    background-color: #FFFFFF;
 }
 
 .private_message{
@@ -62,7 +60,7 @@ em{
     font-weight: 700;
 }
 footer{
-    width: 100vw;
+    width: 375px;
     position: fixed;
     bottom: 0px;
     left: 0px;
