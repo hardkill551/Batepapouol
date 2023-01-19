@@ -2,7 +2,6 @@ let person;
 let mensagem = document.querySelector("ul");
 let mensagemAnterior;
 let elementoqueaparece;
-let x = 0
 
 function reload(){
     alert("Você não está mais logado")
@@ -23,7 +22,6 @@ function enviarMensagens(){
 }
 
 function mostrarPrimeirasMensagens(resposta){
-    if(x!==1){
     for (let i =0;i<resposta.data.length-1;i++){
     if (resposta.data[i].type == "status"){
         mensagem.innerHTML += `<li class="status" data-test="message"><span>${(resposta.data[i].time)} </span><em>${(resposta.data[i].from)}</em> ${(resposta.data[i].text)}</li>`
@@ -37,9 +35,8 @@ function mostrarPrimeirasMensagens(resposta){
         }
     }
     }
-    x=1
 }
-}
+
 
 function mostrarMensagens(resposta){
     const resposta1 = resposta.data[99].time
@@ -77,17 +74,22 @@ function manterConexão(){
 
 function entrou(){
     coletarMensagens()
+    coletarMensagensACada3Segundos()
     let x = setInterval(manterConexão, 5000)
     let y = setInterval(coletarMensagensACada3Segundos, 3000)
 }
-function naoEntrou(){
+function naoEntrou(resposta){
     const member = prompt("Nome de usuário já existe, escolha outro")
     person.name = member
-    entrarNaSala()
+    entrarNaSala(resposta)
 }
 
-function entrarNaSala(){
-
+function entrarNaSala(resposta){
+    for (let i=0;i<resposta.data-1;i++){
+        if (resposta.data[i]==person){
+            naoEntrou(resposta)
+        }
+    }
     const promise = axios.post("https://mock-api.driven.com.br/api/v6/uol/participants", person)
         promise.then(entrou)
         promise.catch(naoEntrou)
