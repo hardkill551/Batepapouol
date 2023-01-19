@@ -25,14 +25,14 @@ function mostrarPrimeirasMensagens(resposta){
     if(x!==1){
     for (let i =0;i<resposta.data.length-1;i++){
     if (resposta.data[i].type == "status"){
-        mensagem.innerHTML += `<li data-test="message" class="status"><span>${(resposta.data[i].time)} </span><em>${(resposta.data[i].from)}</em> ${(resposta.data[i].text)}</li>`
+        mensagem.innerHTML += `<li class="status" data-test="message"><span>${(resposta.data[i].time)} </span><em>${(resposta.data[i].from)}</em> ${(resposta.data[i].text)}</li>`
     }
     if (resposta.data[i].type == "message"){
-        mensagem.innerHTML += `<li data-test="message" class="message"><span>${(resposta.data[i].time)} </span><em>${(resposta.data[i].from)}</em> para <em>${(resposta.data[i].to)}: </em>${(resposta.data[i].text)}</li>`
+        mensagem.innerHTML += `<li class="message" data-test="message"><span>${(resposta.data[i].time)} </span><em>${(resposta.data[i].from)}</em> para <em>${(resposta.data[i].to)}: </em>${(resposta.data[i].text)}</li>`
     }
     if (resposta.data[i].type == "private_message"){
         if (person.name == resposta.data[i].from || person.name == resposta.data[i].to){
-        mensagem.innerHTML += `<li data-test="message" class="private_message"><span>${(resposta.data[i].time)} </span><em>${(resposta.data[i].from)}</em> reservadamente para <em>${(resposta.data[i].to)}: </em>${(resposta.data[i].text)}</li>`
+        mensagem.innerHTML += `<li class="private_message" data-test="message"><span>${(resposta.data[i].time)} </span><em>${(resposta.data[i].from)}</em> reservadamente para <em>${(resposta.data[i].to)}: </em>${(resposta.data[i].text)}</li>`
         }
     }
     }
@@ -62,28 +62,43 @@ function mostrarMensagens(resposta){
 function coletarMensagens(){
     const promise = axios.get("https://mock-api.driven.com.br/api/v6/uol/messages")
     promise.then(mostrarPrimeirasMensagens)
-    promise.then(mostrarMensagens)
 }
 
+function coletarMensagensACada3Segundos(){
+    const promise = axios.get("https://mock-api.driven.com.br/api/v6/uol/messages")
+    promise.then(mostrarMensagens)
+}
 function manterConexão(){
     const promise = axios.post("https://mock-api.driven.com.br/api/v6/uol/status", person)
 }
 
 function entrou(){
+    coletarMensagens()
     let x = setInterval(manterConexão, 5000)
-    let y = setInterval(coletarMensagens, 3000)
+    let y = setInterval(coletarMensagensACada3Segundos, 3000)
 }
 function naoEntrou(){
     alert("Nome de usuário já existe, escolha outro")
-    entrarNaSala()
+    conferirParticipantes()
 }
 
-function entrarNaSala(){
+function entrarNaSala(resposta){
+    for (let i=0;i<resposta.data-1;i++){
+        if (resposta.data[i]==person){
+            naoEntrou()
+        }
+    }
+    const promise = axios.post("https://mock-api.driven.com.br/api/v6/uol/participants", person)
+        promise.then(entrou)
+        promise.catch(naoEntrou)
+}
+
+function conferirParticipantes(){
     const member = prompt("Qual seu nome?")
     person = {name: member}
-    const promise = axios.post("https://mock-api.driven.com.br/api/v6/uol/participants", person)
-    promise.then(entrou)
+    const promise = axios.get("https://mock-api.driven.com.br/api/v6/uol/participants")
+    promise.then(entrarNaSala)
     promise.catch(naoEntrou)
 }
 
-entrarNaSala()
+conferirParticipantes()
