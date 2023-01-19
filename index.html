@@ -8,11 +8,13 @@
     <link rel="stylesheet" href="estilos/style.css">
     <title>Bate Papo UOL</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="shortcut icon" href="imgs/2021-06-23_01-36_logo-removebg-preview.png" type="image/x-icon" />
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;1,100;1,300;1,400;1,500;1,700&display=swap');
     </style>
 </head>
 <body>
+    
     <aside>
         <section>
             Escolha um contato
@@ -44,8 +46,8 @@
         </ul>
     </main>
     <footer>
-        <input type="text" placeholder="Escreva aqui...">
-        <ion-icon name="paper-plane-outline" class="paperplane"></ion-icon>
+        <input data-test="input-message" type="text" placeholder="Escreva aqui...">
+        <ion-icon name="paper-plane-outline" data-test="send-message" class="paperplane" onclick="enviarMensagens()"></ion-icon>
     </footer>
     
     </div>

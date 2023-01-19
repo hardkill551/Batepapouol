@@ -3,18 +3,36 @@ let mensagem = document.querySelector("ul");
 let mensagemAnterior;
 let elementoqueaparece;
 
+
+function reload(){
+    alert("Você não está mais logado")
+    window.location.reload()
+}
+function enviarMensagens(){
+    const EnvioDaMensagem = {
+        from: person.name,
+        to: "Todos",
+        text: document.querySelector("input").value,
+        type: "message"
+    }
+    const promise = axios.post("https://mock-api.driven.com.br/api/v6/uol/messages", EnvioDaMensagem);
+    promise.then(coletarMensagens);
+    promise.catch(reload);
+    document.querySelector("input").value = ""
+}
+
 function mostrarMensagens(resposta){
     const resposta1 = resposta.data[99].time
     if(mensagemAnterior!=resposta1){
         if (resposta.data[99].type == "status"){
-            mensagem.innerHTML += `<li class="status"><span>${(resposta.data[99].time)} </span><em>${(resposta.data[99].from)}</em> ${(resposta.data[99].text)}</li>`
+            mensagem.innerHTML += `<li data-test="message" class="status"><span>${(resposta.data[99].time)} </span><em>${(resposta.data[99].from)}</em> ${(resposta.data[99].text)}</li>`
         }
         if (resposta.data[99].type == "message"){
-            mensagem.innerHTML += `<li class="message"><span>${(resposta.data[99].time)} </span><em>${(resposta.data[99].from)}</em> para <em>${(resposta.data[99].to)}: </em>${(resposta.data[99].text)}</li>`
+            mensagem.innerHTML += `<li data-test="message" class="message"><span>${(resposta.data[99].time)} </span><em>${(resposta.data[99].from)}</em> para <em>${(resposta.data[99].to)}: </em>${(resposta.data[99].text)}</li>`
         }
         if (resposta.data[99].type == "private_message"){
             if (person.name == resposta.data[99].from || person.name == resposta.data[99].to){
-            mensagem.innerHTML += `<li class="private_message"><span>${(resposta.data[99].time)} </span><em>${(resposta.data[99].from)}</em> reservadamente para <em>${(resposta.data[99].to)}: </em>${(resposta.data[99].text)}</li>`
+            mensagem.innerHTML += `<li data-test="message" class="private_message"><span>${(resposta.data[99].time)} </span><em>${(resposta.data[99].from)}</em> reservadamente para <em>${(resposta.data[99].to)}: </em>${(resposta.data[99].text)}</li>`
             }
         }
         mensagemAnterior = resposta1
