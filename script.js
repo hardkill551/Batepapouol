@@ -34,8 +34,7 @@ function mostrarPrimeirasMensagens(resposta){
         mensagem.innerHTML += `<li class="private_message" data-test="message"><span>${(resposta.data[i].time)} </span><em>${(resposta.data[i].from)}</em> reservadamente para <em>${(resposta.data[i].to)}: </em>${(resposta.data[i].text)}</li>`
         }
     }
-    elementoqueaparece = document.querySelector('li:last-child');
-    console.log(elementoqueaparece)
+    elementoqueaparece = document.querySelector('ul li:last-child');
     elementoqueaparece.scrollIntoView();
     }
 }
@@ -44,6 +43,8 @@ function mostrarPrimeirasMensagens(resposta){
 function mostrarMensagens(resposta){
     const resposta1 = resposta.data[99].time
     if(mensagemAnterior!=resposta1){
+        let deletandoMensangem = document.querySelector('ul')
+        deletandoMensangem.removeChild(deletandoMensangem.firstChild)
         if (resposta.data[99].type == "status"){
             mensagem.innerHTML += `<li class="status" data-test="message"><span>${(resposta.data[99].time)} </span><em>${(resposta.data[99].from)}</em> ${(resposta.data[99].text)}</li>`
         }
@@ -56,6 +57,8 @@ function mostrarMensagens(resposta){
             }
         }
         mensagemAnterior = resposta1
+        elementoqueaparece = document.querySelector('ul li:last-child');
+        elementoqueaparece.scrollIntoView();
     }
 }
 
