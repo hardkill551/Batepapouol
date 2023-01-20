@@ -53,6 +53,9 @@ li{
     background-color: #FFDEDE;
 }
 
+.message{
+    background-color: #FFFFFF;
+}
 span{
     color: #AAAAAA;
 }
@@ -125,7 +128,6 @@ section{
     padding: 0px 10px;
     position: relative;
     font-weight: 400;
-    padding: 8px;
 }
 
 ion-icon{

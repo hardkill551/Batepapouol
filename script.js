@@ -57,40 +57,27 @@ function manterConexão(){
     const promise = axios.post("https://mock-api.driven.com.br/api/v6/uol/status", person)
 }
 
-function entrou(){
-    let y = setInterval(coletarMensagens, 3000)
-    let x = setInterval(manterConexão, 5000)
+function entrou(resposta){
+    if (resposta.status === 200){
+    coletarMensagens();
+    let y = setInterval(coletarMensagens, 3000);
+    let x = setInterval(manterConexão, 5000);
 }
-
+}
 function naoEntrou(resposta){
-    console.log(resposta.status)
-    if (resposta.response.status==400){
-    window.location.reload()
+    if (resposta.response.status === 400){
+    const member = prompt("Nome de usuário já existe, escolha outro")
+    person.name = member
+    entrarNaSala(resposta)
 }
-    else{
-        conferirParticipantes()
-    }
 }
 
-function entrarNaSala(resposta){
-    if (resposta.status == 200){
-    for (let i=0;i<resposta.data-1;i++){
-        if (resposta.data[i]==person){
-            naoEntrou(resposta)
-        }
-    }
+function entrarNaSala(){
+    const member = prompt("Qual seu nome?")
+    person = {name: member}
     const promise = axios.post("https://mock-api.driven.com.br/api/v6/uol/participants", person)
         promise.then(entrou)
         promise.catch(naoEntrou)
-    }
 }
 
-function conferirParticipantes(){
-    const member = prompt("Qual seu nome?")
-    person = {name: member}
-    const promise = axios.get("https://mock-api.driven.com.br/api/v6/uol/participants")
-    promise.then(entrarNaSala)
-    promise.catch(naoEntrou)
-}
-
-conferirParticipantes()
+entrarNaSala()
