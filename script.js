@@ -1,6 +1,6 @@
 let person;
 let mensagem = document.querySelector("ul");
-let mensagemAnterior;
+let mensagemAnterior = [];
 let elementoqueaparece;
 
 function reload(){
@@ -16,12 +16,16 @@ function enviarMensagens(){
         type: "message"
     }
     const promise = axios.post("https://mock-api.driven.com.br/api/v6/uol/messages", EnvioDaMensagem);
-    promise.then(coletarMensagensACada3Segundos);
+    promise.then(coletarMensagens);
     promise.catch(reload);
     document.querySelector("input").value = ""
 }
 
-function mostrarPrimeirasMensagens(resposta){
+function mostrarMensagens(resposta){
+    let deletandoMensagens = document.querySelector("ul");
+    while (deletandoMensagens.firstChild) {
+    deletandoMensagens.removeChild(deletandoMensagens.firstChild);
+    }
     for (let i =0;i<resposta.data.length-1;i++){
     if (resposta.data[i].type == "status"){
         mensagem.innerHTML += `<li class="status" data-test="message"><span>${(resposta.data[i].time)} </span><em>${(resposta.data[i].from)}</em> ${(resposta.data[i].text)}</li>`
@@ -34,40 +38,17 @@ function mostrarPrimeirasMensagens(resposta){
         mensagem.innerHTML += `<li class="private_message" data-test="message"><span>${(resposta.data[i].time)} </span><em>${(resposta.data[i].from)}</em> reservadamente para <em>${(resposta.data[i].to)}: </em>${(resposta.data[i].text)}</li>`
         }
     }
-    elementoqueaparece = document.querySelector('ul li:last-child');
-    elementoqueaparece.scrollIntoView();
     }
-}
-
-
-function mostrarMensagens(resposta){
-    const resposta1 = resposta.data[99].time
-    if(mensagemAnterior!=resposta1){
-        let deletandoMensangem = document.querySelector('ul')
-        deletandoMensangem.removeChild(deletandoMensangem.firstChild)
-        if (resposta.data[99].type == "status"){
-            mensagem.innerHTML += `<li class="status" data-test="message"><span>${(resposta.data[99].time)} </span><em>${(resposta.data[99].from)}</em> ${(resposta.data[99].text)}</li>`
-        }
-        if (resposta.data[99].type == "message"){
-            mensagem.innerHTML += `<li class="message" data-test="message"><span>${(resposta.data[99].time)} </span><em>${(resposta.data[99].from)}</em> para <em>${(resposta.data[99].to)}: </em>${(resposta.data[99].text)}</li>`
-        }
-        if (resposta.data[99].type == "private_message"){
-            if (person.name == resposta.data[99].from || person.name == resposta.data[99].to){
-            mensagem.innerHTML += `<li class="private_message" data-test="message"><span>${(resposta.data[99].time)} </span><em>${(resposta.data[99].from)}</em> reservadamente para <em>${(resposta.data[99].to)}: </em>${(resposta.data[99].text)}</li>`
-            }
-        }
-        mensagemAnterior = resposta1
+    if (mensagemAnterior[0] !== resposta.data[99].time && mensagemAnterior[1] !== resposta.data[99].from && mensagemAnterior[2] !== resposta.data[99].text){
         elementoqueaparece = document.querySelector('ul li:last-child');
         elementoqueaparece.scrollIntoView();
+        mensagemAnterior[0]=resposta.data[99].time
+        mensagemAnterior[1]=resposta.data[99].from
+        mensagemAnterior[2]=resposta.data[99].text
     }
 }
 
 function coletarMensagens(){
-    const promise = axios.get("https://mock-api.driven.com.br/api/v6/uol/messages")
-    promise.then(mostrarPrimeirasMensagens)
-}
-
-function coletarMensagensACada3Segundos(){
     const promise = axios.get("https://mock-api.driven.com.br/api/v6/uol/messages")
     promise.then(mostrarMensagens)
 }
@@ -77,10 +58,8 @@ function manterConexão(){
 }
 
 function entrou(){
-    coletarMensagens()
-    coletarMensagensACada3Segundos()
     let x = setInterval(manterConexão, 5000)
-    let y = setInterval(coletarMensagensACada3Segundos, 3000)
+    let y = setInterval(coletarMensagens, 3000)
 }
 function naoEntrou(resposta){
     const member = prompt("Nome de usuário já existe, escolha outro")
