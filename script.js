@@ -16,7 +16,7 @@ function enviarMensagens(){
         type: "message"
     }
     const promise = axios.post("https://mock-api.driven.com.br/api/v6/uol/messages", EnvioDaMensagem);
-    promise.then(coletarMensagens);
+    promise.then(coletarMensagensACada3Segundos);
     promise.catch(reload);
     document.querySelector("input").value = ""
 }
