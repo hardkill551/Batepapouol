@@ -66,9 +66,8 @@ function entrou(resposta){
 }
 function naoEntrou(resposta){
     if (resposta.response.status === 400){
-    const member = prompt("Nome de usuário já existe, escolha outro");
-    person.name = member;
-    entrarNaSala(resposta);
+    alert("Nome de usuário já existe, escolha outro");
+    location.reload()
 }
 }
 
